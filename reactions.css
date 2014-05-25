@@ -1,0 +1,30 @@
+.r-background {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  z-index: 500;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.r-panel {
+  display: none;
+  box-shadow: 0 2px 26px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  position: fixed;
+  overflow: hidden;
+  z-index: 501;
+  top: 50%;
+  left: 50%;
+  width: 340px;
+  margin-left: -170px;
+  background: #FFF;
+}
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
