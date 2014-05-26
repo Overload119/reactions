@@ -7,7 +7,7 @@
     {
       "matches": ["https://www.facebook.com/*"],
       "css": ["reactions.css"],
-      "js": ["jquery-2.1.1.min.js", "reactions.js"],
+      "js": ["lib/jquery-2.1.1.min.js", "lib/gif.js", "lib/gif.worker.js", "reactions.js", "uploader/gif.js"],
       "run_at": "document_start"
     }
   ],
