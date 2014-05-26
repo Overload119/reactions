@@ -1,4 +1,4 @@
-var uploader = (function() {
+var Uploader = (function() {
   // Video elements
   var video = document.querySelector('video');
   var canvas = $('<canvas>')[0];
@@ -65,7 +65,7 @@ var uploader = (function() {
 
   // Uploads a base64 gif to imgur
   var uploadToImgur = function(base64, callback) {
-    var auth = "Client-ID " + key.CLIENT_ID;
+    var auth = "Client-ID " + Constants.CLIENT_ID;
     $.ajax({
       url: 'https://api.imgur.com/3/image',
       method: 'POST',
@@ -100,3 +100,5 @@ var uploader = (function() {
     prepare: prepare
   }
 })();
+
+window.Uploader = Uploader;
