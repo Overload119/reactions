@@ -1,3 +1,7 @@
+.r-hidden {
+  display: none;
+}
+
 .r-background {
   display: none;
   position: fixed;
@@ -22,6 +26,34 @@
   width: 340px;
   margin-left: -170px;
   background: #FFF;
+}
+
+.r-bar {
+  padding: 8px;
+  overflow: hidden;
+}
+
+.r-bar .r-option {
+  float: left;
+  width: 50%;
+  font-size: 16px;
+  border-radius: 3px;
+  text-align: center;
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
+  border: 1px solid transparent;
+  color: #3B5998;
+  padding: 4px 0;
+}
+
+.r-bar .r-option:hover {
+  background-color: #F2F2F2; /* gray */
+  border: 1px solid #E9EAED;
+  cursor: pointer;
+}
+
+.r-bar .r-option.selected {
+  background-color: #F2F2F2; /* gray */
 }
 
 .stop-scrolling {
