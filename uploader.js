@@ -2,7 +2,7 @@ var uploader = (function() {
   // Video elements
   var video = document.querySelector('video');
   var canvas = $('<canvas>')[0];
-  var ctx = canvas.getContext('2d'); 
+  var ctx = canvas.getContext('2d');
 
   // constants
   var DELAY = 50;
@@ -18,8 +18,8 @@ var uploader = (function() {
   var displayBlob = function(base64) {
     var image = document.createElement('img');
     image.src = 'data:image/bmp;base64,'+ base64;
-    document.body.appendChild(image);    
-  }  
+    document.body.appendChild(image);
+  }
 
   // Prepares the video camera, call when user clicks on react
   var prepare = function() {
@@ -29,7 +29,7 @@ var uploader = (function() {
     }, function(stream) {
       video.src = window.URL.createObjectURL(stream);
     }, function(err) {
-    });  
+    });
   }
 
   var init = function(callback) {
@@ -53,7 +53,7 @@ var uploader = (function() {
       frames--;
 
       if (frames > 0) {
-        return; 
+        return;
       }
 
       // Finished getting all of the images
@@ -64,7 +64,7 @@ var uploader = (function() {
 
   // Uploads a base64 gif to imgur
   var uploadToImgur = function(base64, callback) {
-    var auth = "Client-ID " + key.CLIENT_ID;       
+    var auth = "Client-ID " + key.CLIENT_ID;
     $.ajax({
       url: 'https://api.imgur.com/3/image',
       method: 'POST',
@@ -77,7 +77,7 @@ var uploader = (function() {
         type: 'base64'
       },
       success: function(result) {
-        callback(result.data.id); 
+        callback(result.data.id);
       }
     });
   }
