@@ -26,7 +26,7 @@
   ],
   "web_accessible_resources": [
     "lib/gif.worker.js",
-    "reactions.html"
+    "reactions.html",
     "gifs/*.gif",
     "gifs/*.jpg",
     "metagif.json"

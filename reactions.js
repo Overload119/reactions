@@ -42,10 +42,6 @@
     console.debug('hideReactionsPanel()');
   }
 
-<<<<<<< HEAD
-  function showReactionsPanel(event) {
-    console.log(event.data.value);
-=======
   function showAllTags() {
     $('#r-tag-container').slideDown();
 
@@ -67,8 +63,7 @@
 
   }
 
-  function showReactionsPanel() {
->>>>>>> Add code for gif provider
+  function showReactionsPanel(input) {
     $('body').addClass('stop-scrolling').append(reactionFrameHtml);
     Uploader.prepare();
     console.log("Preparing");
@@ -77,7 +72,8 @@
       Uploader.init(function(data) {
         if (data) {
           console.log('https://imgur.com/gallery/' + data); 
-          $(event.data.value).parent().parent().next().find('textarea').text('https://imgur.com/gallery/' + data);
+          console.log($(input));
+          $(input).text('https://imgur.com/gallery/' + data);
           hideReactionsPanel();
         }
       }); 
@@ -112,17 +108,9 @@
   $(document).ready(function() {
     setupEvents();
     var pageListener = new FBPageListener();
-    pageListener.addCallback(function() {
-      var reactButtonCount = 0;
-      $('.comment_link').each(function(index, value) {
-        var $react = $('<span><a class="UFILikeLink">React</span>')
-        var dotPrefix = document.createTextNode(' · ');
-        $(value).parent().append(dotPrefix).append($react);
-        $react.on("click", {value: value}, showReactionsPanel);
-        reactButtonCount++;
-      });
-      console.debug('Injected ' + reactButtonCount + ' reaction tags');
+
+    pageListener.init(function(event) {
+      showReactionsPanel(event.data.input);   
     });
-    pageListener.init();
   });
 })(this);
