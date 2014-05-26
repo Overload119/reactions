@@ -8,9 +8,9 @@
       "matches": ["https://www.facebook.com/*"],
       "css": ["reactions.css"],
       "js": [
+        "lib/patch-worker.js",
         "lib/jquery-2.1.1.min.js",
         "lib/gif.js",
-        "lib/gif.worker.js",
         "classes/FBPageListener.js",
         "classes/Constants.js",
         "classes/Uploader.js",
@@ -23,6 +23,7 @@
     "tabs", "https://*.facebook.com/*", "http://*.facebook.com/*"
   ],
   "web_accessible_resources": [
+    "lib/gif.worker.js",
     "reactions.html"
   ]
 }

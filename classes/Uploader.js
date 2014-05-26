@@ -1,26 +1,24 @@
 var Uploader = (function() {
   // Video elements
-  var video = document.querySelector('video');
+  var video;
   var canvas = $('<canvas>')[0];
   var ctx = canvas.getContext('2d');
 
   // constants
-  var DELAY = 50;
+  var DELAY = 70;
   var WIDTH = 320;
   var HEIGHT = 240;
-  var NUM_FRAMES = 10;
+  var NUM_FRAMES = 20;
 
   var displayBlob = function(base64) {
     var image = document.createElement('img');
     image.src = 'data:image/bmp;base64,'+ base64;
-    document.body.appendChild(image);
+    document.querySelector(".r-panel").appendChild(image);
   }
 
   // Prepares the video camera, call when user clicks on react
   var prepare = function() {
-    var video = document.querySelector('video');
-    var canvas = $('<canvas>')[0];
-    var ctx = canvas.getContext('2d');
+    video = document.querySelector('#video-source');
     video.width = canvas.width = WIDTH;
     video.height = canvas.height = HEIGHT;
 
@@ -44,10 +42,9 @@ var Uploader = (function() {
     gif.on('finished', function(reaction) {
       blobToBase64(reaction, function(base64) {
         displayBlob(base64);
-        // uploadToImgur(base64, callback);
+        uploadToImgur(base64, callback);
       });
     });
-
     var interval = setInterval(function() {
       ctx.drawImage(video, 0, 0, WIDTH, HEIGHT);
       gif.addFrame(ctx.getImageData(0, 0, WIDTH, HEIGHT));

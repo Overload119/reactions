@@ -19,9 +19,21 @@
     console.debug('hideReactionsPanel()');
   }
 
-  function showReactionsPanel() {
+  function showReactionsPanel(event) {
+    console.log(event.data.value);
     $('body').addClass('stop-scrolling').append(reactionFrameHtml);
+    Uploader.prepare();
+    console.log("Preparing");
 
+    $('#create-gif').click(function() {
+      Uploader.init(function(data) {
+        if (data) {
+          console.log('https://imgur.com/gallery/' + data); 
+          $(event.data.value).parent().parent().next().find('textarea').text('https://imgur.com/gallery/' + data);
+          hideReactionsPanel();
+        }
+      }); 
+    });
     $('.r-background').fadeIn(250, function() {
       $('.r-panel').fadeIn(250, function() {
         $(window).on('keyup', function(evt) {
@@ -50,7 +62,7 @@
         var $react = $('<span><a class="UFILikeLink">React</span>')
         var dotPrefix = document.createTextNode(' · ');
         $(value).parent().append(dotPrefix).append($react);
-        $react.click(showReactionsPanel);
+        $react.on("click", {value: value}, showReactionsPanel);
         reactButtonCount++;
       });
       console.debug('Injected ' + reactButtonCount + ' reaction tags');
