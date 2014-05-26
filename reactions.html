@@ -2,7 +2,7 @@
   <div class="r-bar">
     <div id="r-search" class="r-option" >Search</div>
     <div id="create-gif" class="r-option">Create</div>
-    <video id="video-source" autoplay >
+    <video id="video-source" autoplay class="r-hidden">
   </div>
   <div class="r-bar r-hidden" id="r-tag-container">
     <div class="r-option" id="r-tag-disgust">Disgust</div>
@@ -11,6 +11,8 @@
   <div class="r-bar r-hidden gif-container" id="r-gif-container">
     <div class="gif-container-overlay">
       <img src="" />
+      <button id="gif-overlay-close" class="r-overlay-btn left">Close</button>
+      <button id="gif-overlay-use" class="r-overlay-btn right">Post</button>
     </div>
     <div class="gif-inner-container"></div>
   </div>

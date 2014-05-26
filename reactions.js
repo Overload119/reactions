@@ -7,27 +7,41 @@
     console.debug('Retrieved reactions html');
   });
 
+  // Start code for EVENTS
   var onClickPreviewGif = function(evt) {
     var gifId = $(this).data('id');
     var $gifContainer = $('#r-gif-container');
-    $gifContainer.find('.gif-container-overlay').show();
+    $gifContainer.find('.gif-container-overlay').addClass('show');
 
     var gif = gifProvider.findById( gifId );
     $gifContainer.find('.gif-container-overlay img').attr('src', gifProvider.getImagePathFor(gif));
     $gifContainer.find('.gif-inner-container').hide();
+    $gifContainer.find('#gif-overlay-use').data('id', gifId);
 
     console.debug('onClickPreviewGif()');
   }
 
   var onClickGifPreviewOverlay = function(evt) {
     $('#r-gif-container .gif-inner-container').show();
-    $('#r-gif-container .gif-container-overlay').hide();
+    $('#r-gif-container .gif-container-overlay').removeClass('show');
+  }
+
+  var onClickGifPost = function(evt) {
+    var gifId     = $(this).data('id');
+    var gif       = gifProvider.findById(gifId);
+    var imgurLink = gif.link;
+
+    // TODO: Uncomment when ready
+    // CommentInjector.addPost( imgurLink );
   }
 
   var setupEvents = function() {
     $('body').on('click', '#r-gif-container .gif-inner-container .r-img', onClickPreviewGif);
     $('body').on('click', '#r-gif-container .gif-container-overlay', onClickGifPreviewOverlay);
+    $('body').on('click', '#r-gif-container #gif-overlay-use', onClickGifPost);
   }
+
+  // End code for EVENTS
 
   function hideReactionsPanel() {
     $('.r-panel').stop(0, 0).fadeOut(250, function() {
@@ -76,7 +90,7 @@
           $(input).text('https://imgur.com/gallery/' + data);
           hideReactionsPanel();
         }
-      }); 
+      });
     });
     $('.r-background').fadeIn(250, function() {
       $('.r-panel').fadeIn(250, function() {
