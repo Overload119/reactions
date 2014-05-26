@@ -45,10 +45,27 @@
     // CommentInjector.addPost( imgurLink );
   }
 
+  var onClickCreate = function(evt) {
+    $('#video-container').show();
+    Uploader.prepare();
+    // Add a small delay for the webcam to get ready
+    setTimeout(function() {
+      Uploader.recordAndUpload(function(imgurLink, localLink) {
+        console.debug('Gif uploaded to: ' + imgurLink);
+        $('#video-source').hide();
+        $('#video-preview').attr('src', localLink).show();
+        $('.r-timer-bar-text').text('Done!');
+      });
+    }, 500);
+    Uploader.cleanup();
+  }
+
   var setupEvents = function() {
     $('body').on('click', '#r-gif-container .gif-inner-container .r-img', onClickPreviewGif);
     $('body').on('click', '#r-gif-container .gif-container-overlay', onClickGifPreviewOverlay);
     $('body').on('click', '#r-gif-container #gif-overlay-use', onClickGifPost);
+
+    $('body').on('click', '#create-gif', onClickCreate);
   }
 
   // End code for EVENTS
@@ -89,19 +106,6 @@
 
   function showReactionsPanel(input) {
     $('body').addClass('stop-scrolling').append(reactionFrameHtml);
-    Uploader.prepare();
-    console.log("Preparing");
-
-    $('#create-gif').click(function() {
-      Uploader.init(function(data) {
-        if (data) {
-          console.log('https://imgur.com/gallery/' + data); 
-          console.log($(input));
-          $(input).text('https://imgur.com/gallery/' + data);
-          hideReactionsPanel();
-        }
-      });
-    });
     $('.r-background').fadeIn(250, function() {
       $('.r-panel').fadeIn(250, function() {
 
@@ -134,7 +138,7 @@
     var pageListener = new FBPageListener();
 
     pageListener.init(function(event) {
-      showReactionsPanel(event.data.input);   
+      showReactionsPanel(event.data.input);
     });
   });
 })(this);

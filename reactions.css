@@ -1,7 +1,3 @@
-.r-hidden {
-  display: none;
-}
-
 .r-background {
   display: none;
   position: fixed;
@@ -35,6 +31,10 @@
 .r-bar {
   padding: 8px;
   overflow: hidden;
+}
+
+.r-bar.no-top-padding {
+  padding: 0;
 }
 
 .r-bar .r-option {
@@ -137,6 +137,45 @@
   height: auto;
 }
 
+/* Video Related Containers */
+.video-source {
+  margin: 0 auto;
+  width: 320px;
+  height: 240px;
+  border: 1px solid #EEE;
+  display: block;
+}
+
+.r-timer-bar {
+  position: relative;
+  text-align: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 2px;
+  width: 320px;
+  margin: 0 auto;
+}
+
+.r-timer-bar-text {
+  color: white;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  height: 32px;
+  z-index: 10;
+}
+
+.r-timer-bar .progress-bar {
+  background: #3b5998; /*blue*/
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 0%;
+  height: 32px;
+  -webkit-transition: width 250ms;
+  z-index: 9;
+}
+
 /* Animations */
 
 @-webkit-keyframes bounce {
@@ -149,3 +188,8 @@
     box-shadow: 0 0 0px 0px rgba(0, 0, 0, 0);
   }
 }
+
+.r-hidden {
+  display: none;
+}
+

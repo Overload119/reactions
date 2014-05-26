@@ -2,8 +2,17 @@
   <div class="r-bar">
     <div id="r-search" class="r-option" >Search</div>
     <div id="create-gif" class="r-option">Create</div>
-    <video id="video-source" autoplay class="r-hidden">
   </div>
+
+  <div id="video-container" class="r-bar no-top-padding r-hidden" class="video-container">
+    <video id="video-source" class="video-source" width="320" height="240" autoplay></video>
+    <img id="video-preview" class="r-hidden video-source" src="" width="320" height="240" />
+    <div id="video-timer" class="r-timer-bar">
+      <div class="r-timer-bar-text">Recording...</div>
+      <div class="progress-bar"></div>
+    </div>
+  </div>
+
   <div class="r-bar r-hidden" id="r-tag-container">
     <div class="r-option" id="r-tag-disgust">Disgust</div>
   </div>
