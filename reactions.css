@@ -21,7 +21,7 @@
   position: fixed;
   overflow: hidden;
   z-index: 501;
-  top: 30%;
+  top: 100px;
   left: 50%;
   width: 550px;
   margin-left: -225px;
@@ -90,6 +90,38 @@
   display: none;
   text-align: center;
   overflow: hidden;
+}
+
+.gif-container-overlay.show {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.r-overlay-btn {
+  text-align: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  border-radius: 3px;
+  font-size: 18px;
+  border: 1px solid #EEE;
+  outline: none;
+}
+
+.r-overlay-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+
+.r-overlay-btn.left {
+  bottom: 14px;
+  left: 14px;
+}
+
+.r-overlay-btn.right {
+  right: 14px;
+  bottom: 14px;
 }
 
 .gif-container-overlay img {
