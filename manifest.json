@@ -12,9 +12,7 @@
         "lib/gif.js",
         "lib/gif.worker.js",
         "classes/FBPageListener.js",
-        "reactions.js",
-        "reactions.js",
-        "uploader/gif.js"
+        "reactions.js"
       ],
       "run_at": "document_start"
     }
