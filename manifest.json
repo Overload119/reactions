@@ -14,8 +14,7 @@
         "classes/FBPageListener.js",
         "classes/Constants.js",
         "classes/Uploader.js",
-        "reactions.js",
-        "uploader.js"
+        "reactions.js"
       ],
       "run_at": "document_start"
     }
