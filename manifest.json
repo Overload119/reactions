@@ -11,9 +11,11 @@
         "lib/patch-worker.js",
         "lib/jquery-2.1.1.min.js",
         "lib/gif.js",
+        "lib/fuse.min.js",
         "classes/FBPageListener.js",
         "classes/Constants.js",
         "classes/Uploader.js",
+        "classes/GifProvider.js",
         "reactions.js"
       ],
       "run_at": "document_start"
@@ -25,5 +27,8 @@
   "web_accessible_resources": [
     "lib/gif.worker.js",
     "reactions.html"
+    "gifs/*.gif",
+    "gifs/*.jpg",
+    "metagif.json"
   ]
 }

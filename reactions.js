@@ -1,10 +1,33 @@
 (function(window) {
   var reactionFrameHtml;
+  var gifProvider = new GifProvider(true);
 
   $.get(chrome.extension.getURL('/reactions.html'), function(data) {
     reactionFrameHtml = data;
     console.debug('Retrieved reactions html');
   });
+
+  var onClickPreviewGif = function(evt) {
+    var gifId = $(this).data('id');
+    var $gifContainer = $('#r-gif-container');
+    $gifContainer.find('.gif-container-overlay').show();
+
+    var gif = gifProvider.findById( gifId );
+    $gifContainer.find('.gif-container-overlay img').attr('src', gifProvider.getImagePathFor(gif));
+    $gifContainer.find('.gif-inner-container').hide();
+
+    console.debug('onClickPreviewGif()');
+  }
+
+  var onClickGifPreviewOverlay = function(evt) {
+    $('#r-gif-container .gif-inner-container').show();
+    $('#r-gif-container .gif-container-overlay').hide();
+  }
+
+  var setupEvents = function() {
+    $('body').on('click', '#r-gif-container .gif-inner-container .r-img', onClickPreviewGif);
+    $('body').on('click', '#r-gif-container .gif-container-overlay', onClickGifPreviewOverlay);
+  }
 
   function hideReactionsPanel() {
     $('.r-panel').stop(0, 0).fadeOut(250, function() {
@@ -19,8 +42,33 @@
     console.debug('hideReactionsPanel()');
   }
 
+<<<<<<< HEAD
   function showReactionsPanel(event) {
     console.log(event.data.value);
+=======
+  function showAllTags() {
+    $('#r-tag-container').slideDown();
+
+    $('#r-tag-disgust').click(function() {
+      $('#r-tag-container').slideUp(400, function() {
+
+        $('#r-gif-container').slideDown();
+
+        var gifs = gifProvider.get('disgust');
+        var imageHtml = '';
+        gifs.forEach(function(gif) {
+          var imgSrc = gifProvider.getPreviewImagePathFor( gif );
+          imageHtml += '<img src="' + imgSrc + '" class="r-img" data-id="' + gif.id + '" />';
+        });
+
+        $('#r-gif-container .gif-inner-container').html(imageHtml);
+      });
+    });
+
+  }
+
+  function showReactionsPanel() {
+>>>>>>> Add code for gif provider
     $('body').addClass('stop-scrolling').append(reactionFrameHtml);
     Uploader.prepare();
     console.log("Preparing");
@@ -36,6 +84,13 @@
     });
     $('.r-background').fadeIn(250, function() {
       $('.r-panel').fadeIn(250, function() {
+
+        $('#r-search').click(function() {
+          $('#r-search').addClass('selected');
+          showAllTags();
+        });
+
+
         $(window).on('keyup', function(evt) {
           if (evt.keyCode === 27) {
             hideReactionsPanel();
@@ -55,6 +110,7 @@
   }
 
   $(document).ready(function() {
+    setupEvents();
     var pageListener = new FBPageListener();
     pageListener.addCallback(function() {
       var reactButtonCount = 0;
@@ -68,6 +124,5 @@
       console.debug('Injected ' + reactButtonCount + ' reaction tags');
     });
     pageListener.init();
-
   });
 })(this);
