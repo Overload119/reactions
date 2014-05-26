@@ -1,2 +1,3 @@
 .DS_Store
-gifs/*.(jpg|gif)
+gifs/*.jpg
+gifs/*.gif

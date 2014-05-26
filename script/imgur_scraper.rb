@@ -31,7 +31,7 @@ def extract_images_from_album(album_url, tag)
       file << open(gif_data['link']).read
     end
     open("./gifs/#{gif_id}s.jpg", "wb") do |file|
-      file << open(gif_data['preview_link']).read
+      file << open( image.link.gsub(".gif", "s.gif") ).read
     end
 
     puts "  #{index} / #{album.images.size}"
