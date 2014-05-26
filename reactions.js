@@ -1,6 +1,7 @@
 (function(window) {
   var reactionFrameHtml;
   var gifProvider = new GifProvider(true);
+  var $lastGifImg;
 
   $.get(chrome.extension.getURL('/reactions.html'), function(data) {
     reactionFrameHtml = data;
@@ -18,12 +19,21 @@
     $gifContainer.find('.gif-inner-container').hide();
     $gifContainer.find('#gif-overlay-use').data('id', gifId);
 
+    $lastGifImg = $(this);
+
     console.debug('onClickPreviewGif()');
   }
 
   var onClickGifPreviewOverlay = function(evt) {
+    // Fired when you exit the preview screen for a gif
     $('#r-gif-container .gif-inner-container').show();
     $('#r-gif-container .gif-container-overlay').removeClass('show');
+
+    // Shows a bouncy animation to highlight the last GIF the user just viewed
+    var lastGif = $lastGifImg;
+    lastGif.addClass('bounce').one('webkitAnimationEnd', function() {
+      lastGif.removeClass('bounce');
+    });
   }
 
   var onClickGifPost = function(evt) {
