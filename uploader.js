@@ -10,11 +10,6 @@ var uploader = (function() {
   var HEIGHT = 240;
   var NUM_FRAMES = 10;
 
-  // Video properties
-  var frames;
-  video.width = canvas.width = WIDTH;
-  video.height = canvas.height = HEIGHT;
-
   var displayBlob = function(base64) {
     var image = document.createElement('img');
     image.src = 'data:image/bmp;base64,'+ base64;
@@ -23,6 +18,12 @@ var uploader = (function() {
 
   // Prepares the video camera, call when user clicks on react
   var prepare = function() {
+    var video = document.querySelector('video');
+    var canvas = $('<canvas>')[0];
+    var ctx = canvas.getContext('2d');
+    video.width = canvas.width = WIDTH;
+    video.height = canvas.height = HEIGHT;
+
     navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
     navigator.getUserMedia({
       video: true
@@ -33,7 +34,7 @@ var uploader = (function() {
   }
 
   var init = function(callback) {
-    frames = NUM_FRAMES;
+    var frames = NUM_FRAMES;
 
     var gif = new GIF({
       width: WIDTH,
