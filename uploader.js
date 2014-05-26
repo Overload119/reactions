@@ -8,7 +8,7 @@ var uploader = (function() {
   var DELAY = 50;
   var WIDTH = 320;
   var HEIGHT = 240;
-  var NUM_FRAMES = 3;
+  var NUM_FRAMES = 10;
 
   // Video properties
   var frames;
