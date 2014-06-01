@@ -2,3 +2,4 @@
 gifs/*.jpg
 gifs/*.gif
 metagif.json
+.sass-cache/*

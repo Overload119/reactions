@@ -1,3 +1,6 @@
+/* Run `gem install sass` then run the following command
+ * `sass --watch reactions.sass.css:reactions.css`
+ * This will recompile the SASS in this file into reactions.css which is used in the extension. */
 .r-background {
   display: none;
   position: fixed;
@@ -7,8 +10,7 @@
   min-height: 100%;
   overflow: hidden;
   z-index: 500;
-  background: rgba(0, 0, 0, 0.15);
-}
+  background: rgba(0, 0, 0, 0.15); }
 
 .r-panel {
   display: none;
@@ -21,85 +23,63 @@
   left: 50%;
   width: 550px;
   margin-left: -225px;
-  background: #FFF;
-}
+  background: white; }
 
 .r-panel * {
-  box-sizing: border-box;
-}
+  box-sizing: border-box; }
 
 .r-bar {
   padding: 8px;
-  overflow: hidden;
-}
-
-.r-bar.no-top-padding {
-  padding: 0;
-}
-
-.r-bar .r-option {
-  float: left;
-  width: 50%;
-  font-size: 16px;
-  border-radius: 3px;
-  text-align: center;
-  box-sizing: border-box;
-  font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
-  border: 1px solid transparent;
-  color: #3B5998;
-  padding: 4px 0;
-}
-
-.r-bar .r-option:hover {
-  background-color: #F2F2F2; /* gray */
-  cursor: pointer;
-}
-
-.r-bar .r-option.selected {
-  background-color: #F2F2F2; /* gray */
-  border: 1px solid #E9EAED;
-}
-
-.r-bar .r-img {
-  float: left;
-  width: 25%;
-}
-
-.r-bar .r-img.bounce {
-  -webkit-animation: bounce 250ms ease-out;
-}
-
-.r-bar .r-img:last-child {
-  float: right;
-}
+  overflow: hidden; }
+  .r-bar.no-top-padding {
+    padding: 0; }
+  .r-bar .r-option {
+    float: left;
+    width: 50%;
+    font-size: 16px;
+    border-radius: 3px;
+    text-align: center;
+    box-sizing: border-box;
+    font-family: Helvetica, Arial, "lucida grande", tahoma, verdana, arial, sans-serif;
+    border: 1px solid transparent;
+    color: #3b5998;
+    padding: 4px 0; }
+    .r-bar .r-option:hover {
+      background-color: #f2f2f2;
+      cursor: pointer; }
+    .r-bar .r-option.selected {
+      background-color: #f2f2f2;
+      border: 1px solid #e9eaed; }
+  .r-bar .r-img {
+    float: left;
+    width: 25%; }
+  .r-bar .r-img.bouce {
+    -webkit-animation: bounce 250ms ease-out; }
+  .r-bar:last-child {
+    float: right; }
 
 .stop-scrolling {
   height: 100%;
-  overflow: hidden;
-}
+  overflow: hidden; }
 
 .gif-container-overlay {
-  position: absolute
+  position: absolute;
   left: 0px;
   top: 0px;
   width: 100%;
   height: 400px;
-  background: #000;
+  background: black;
   display: none;
   text-align: center;
-  overflow: hidden;
-}
-
-.gif-container-overlay.show {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+  overflow: hidden; }
+  .gif-container-overlay.show {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
 
 .gif-inner-container {
   overflow: auto;
-  height: 400px;
-}
+  height: 400px; }
 
 .r-overlay-btn {
   text-align: center;
@@ -108,24 +88,19 @@
   position: absolute;
   border-radius: 3px;
   font-size: 18px;
-  border: 1px solid #EEE;
-  outline: none;
-}
-
-.r-overlay-btn:hover {
-  background: rgba(0, 0, 0, 0.8);
-  cursor: pointer;
-}
+  border: 1px solid #eeeeee;
+  outline: none; }
+  .r-overlay-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    cursor: pointer; }
 
 .r-overlay-btn.left {
   bottom: 14px;
-  left: 14px;
-}
+  left: 14px; }
 
 .r-overlay-btn.right {
   right: 14px;
-  bottom: 14px;
-}
+  bottom: 14px; }
 
 .gif-container-overlay img {
   position: relative;
@@ -134,17 +109,15 @@
   width: 100%;
   max-height: 100%;
   outline: 0;
-  height: auto;
-}
+  height: auto; }
 
 /* Video Related Containers */
 .video-source {
   margin: 0 auto;
   width: 320px;
   height: 240px;
-  border: 1px solid #EEE;
-  display: block;
-}
+  border: 1px solid #eeeeee;
+  display: block; }
 
 .r-timer-bar {
   position: relative;
@@ -153,8 +126,7 @@
   line-height: 32px;
   padding: 2px;
   width: 320px;
-  margin: 0 auto;
-}
+  margin: 0 auto; }
 
 .r-timer-bar-text {
   color: white;
@@ -162,34 +134,25 @@
   text-align: center;
   width: 100%;
   height: 32px;
-  z-index: 10;
-}
+  z-index: 10; }
 
 .r-timer-bar .progress-bar {
-  background: #3b5998; /*blue*/
+  background: #3b5998;
   top: 0;
   left: 0;
   position: absolute;
   width: 0%;
   height: 32px;
   -webkit-transition: width 250ms;
-  z-index: 9;
-}
-
-/* Animations */
+  z-index: 9; }
 
 @-webkit-keyframes bounce {
   0% {
     -webkit-transform: scale(1.5);
-    box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.8);
-  }
+    box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.8); }
+
   100% {
     -webkit-transform: scale(1);
-    box-shadow: 0 0 0px 0px rgba(0, 0, 0, 0);
-  }
-}
-
+    box-shadow: 0 0 0px 0px transparent; } }
 .r-hidden {
-  display: none;
-}
-
+  display: none; }
