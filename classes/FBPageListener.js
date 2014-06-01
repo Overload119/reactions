@@ -8,10 +8,12 @@ var FBPageListener = function() {
   this.$element     = null;
   this.callbacks    = [];
   this.pageLoaded   = false;
+  this.callback = null;
   
   this.commentElements = [];
-  this.callback = null;
-  this.commentIds = {};
+  this.commentList = {};
+  this.commentLinks = {};
+  this.commentInputs = {};
 };
 
 FBPageListener.prototype._listen = function () {
@@ -55,16 +57,41 @@ FBPageListener.prototype.runCallbacks = function() {
 
 FBPageListener.prototype.reactInjector = function() {
   var self = this;
+  // A commentable item is a form containing like, share and comments
   $('.commentable_item').each(function(index, value) {
-    var key = jQuery.parseJSON($(value).find("> input:nth-child(3)").attr("value")).target_fbid;
-    if (!(key in self.commentIds)) {
-      self.commentIds[key] = $(value).find('textarea');
+    // Fetch the ID of the post
+    var newsFeedItem = $(value).find("> input:nth-child(3)")
+    if (newsFeedItem.length === 0) {
+      var key = 
+      self.handlePopupInjector(key);
+      return;
+    }
+    var key = jQuery.parseJSON(newsFeedItem.attr("value")).target_fbid;
+    // Make sure not to repeat anything
+    if (!(key in self.commentInputs) && $(value).find('textarea').length != 0) {
+      // Fetch the comment link and the comment input 
+      self.commentList[key] = $(value).find('div.UFIContainer ul.UFIList');
+      self.commentInputs[key] = $(value).find('textarea');
+      self.commentLinks[key] = $(value).find('input.uiLinkButtonInput');
+      // Append the React link
       var $react = $('<span><a class="UFILikeLink">React</span>')
       var dotPrefix = document.createTextNode(' · ');
       $(value).find('.clearfix:first > div').append(dotPrefix).append($react);
-      $react.on("click", {input: self.commentIds[key]}, self.callback);
+
+      // Attach a callback on clicking the react link
+      $react.on("click", {
+        input: self.commentInputs[key],
+        prepare: function() {
+          if (self.commentList[key].css('display') == 'none') {
+            $(value).removeClass("collapsed_comments");
+          }
+        }
+      }, self.callback);
     }
   });
 }
 
+FBPageListener.prototype.reactInjector = function() {
+  
+}
 window.FBPageListener = FBPageListener;

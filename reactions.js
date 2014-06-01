@@ -74,10 +74,12 @@
         $('#r-gif-container .gif-inner-container').html(imageHtml);
       });
     });
-
   }
 
-  function showReactionsPanel(input) {
+  function showReactionsPanel(data) {
+    var input = data.input;
+    var prepare = data.prepare;
+
     $('body').addClass('stop-scrolling').append(reactionFrameHtml);
     Uploader.prepare();
     console.log("Preparing");
@@ -85,9 +87,9 @@
     $('#create-gif').click(function() {
       Uploader.init(function(data) {
         if (data) {
-          console.log('https://imgur.com/gallery/' + data); 
-          console.log($(input));
-          $(input).text('https://imgur.com/gallery/' + data);
+          var url = 'https://imgur.com/gallery/' + data;
+          prepare();
+          input.text(url);
           hideReactionsPanel();
         }
       });
@@ -124,7 +126,7 @@
     var pageListener = new FBPageListener();
 
     pageListener.init(function(event) {
-      showReactionsPanel(event.data.input);   
+      showReactionsPanel(event.data);   
     });
   });
 })(this);
