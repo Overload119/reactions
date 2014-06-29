@@ -4,17 +4,14 @@ var Uploader = (function() {
   var canvas = $('<canvas>')[0];
   var ctx = canvas.getContext('2d');
 
+  // Extra
+  var localStream;
+
   // constants
-  var DELAY = 70;
+  var DELAY = 200;
   var WIDTH = 320;
   var HEIGHT = 240;
-  var NUM_FRAMES = 20;
-
-  var displayBlob = function(base64) {
-    var image = document.createElement('img');
-    image.src = 'data:image/bmp;base64,'+ base64;
-    document.querySelector(".r-panel").appendChild(image);
-  }
+  var NUM_FRAMES = 30;
 
   // Prepares the video camera, call when user clicks on react
   var prepare = function() {
@@ -22,13 +19,15 @@ var Uploader = (function() {
     video.width = canvas.width = WIDTH;
     video.height = canvas.height = HEIGHT;
 
-    navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-    navigator.getUserMedia({
-      video: true
-    }, function(stream) {
-      video.src = window.URL.createObjectURL(stream);
-    }, function(err) {
-    });
+    var onSuccess = function(stream) {
+      localStream = stream;
+      video.src = window.URL.createObjectURL(localStream);
+    }
+
+    var onError = function(error) {
+    }
+
+    navigator.webkitGetUserMedia({ 'video': true }, onSuccess, onError);
   }
 
   var init = function(callback) {
@@ -39,16 +38,13 @@ var Uploader = (function() {
       height: HEIGHT,
     });
 
-    gif.on('finished', function(reaction) {
-      blobToBase64(reaction, function(base64) {
-        displayBlob(base64);
-        uploadToImgur(base64, callback);
-      });
-    });
+    $('.r-timer-bar-text').text('Recording...');
     var interval = setInterval(function() {
       ctx.drawImage(video, 0, 0, WIDTH, HEIGHT);
       gif.addFrame(ctx.getImageData(0, 0, WIDTH, HEIGHT));
       frames--;
+
+      $('#video-timer .progress-bar').css('width', (((NUM_FRAMES - frames) / NUM_FRAMES) * 100) + '%');
 
       if (frames > 0) {
         return;
@@ -57,7 +53,15 @@ var Uploader = (function() {
       // Finished getting all of the images
       clearInterval(interval);
       gif.render();
+      $('.r-timer-bar-text').text('Uploading...');
     }, DELAY);
+
+    // Fired once the gif has been composed
+    gif.on('finished', function(reaction) {
+      blobToBase64(reaction, function(base64) {
+        uploadToImgur(base64, callback);
+      });
+    });
   }
 
   // Uploads a base64 gif to imgur
@@ -75,11 +79,12 @@ var Uploader = (function() {
         type: 'base64'
       },
       success: function(result) {
-        callback(result.data.id);
+        var imgurLink = 'https://imgur.com/gallery/' + result.data.id;
+        var localLink = 'data:image/bmp;base64,'+ base64;
+        callback.call(this, imgurLink, localLink);
       }
     });
   }
-
 
   // Converts a blob to a base64 object
   var blobToBase64 = function(blob, callback) {
@@ -92,9 +97,16 @@ var Uploader = (function() {
     reader.readAsDataURL(blob);
   };
 
+  var cleanup = function() {
+    localStream.stop();
+    localStream = null;
+    console.debug('Uploader: cleanup()');
+  }
+
   return {
-    init: init,
-    prepare: prepare
+    recordAndUpload: init,
+    prepare: prepare,
+    cleanup: cleanup
   }
 })();
 

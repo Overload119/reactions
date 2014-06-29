@@ -1,6 +1,7 @@
 (function(window) {
   var reactionFrameHtml;
   var gifProvider = new GifProvider(true);
+  var $lastGifImg;
 
   $.get(chrome.extension.getURL('/reactions.html'), function(data) {
     reactionFrameHtml = data;
@@ -18,12 +19,21 @@
     $gifContainer.find('.gif-inner-container').hide();
     $gifContainer.find('#gif-overlay-use').data('id', gifId);
 
+    $lastGifImg = $(this);
+
     console.debug('onClickPreviewGif()');
   }
 
   var onClickGifPreviewOverlay = function(evt) {
+    // Fired when you exit the preview screen for a gif
     $('#r-gif-container .gif-inner-container').show();
     $('#r-gif-container .gif-container-overlay').removeClass('show');
+
+    // Shows a bouncy animation to highlight the last GIF the user just viewed
+    var lastGif = $lastGifImg;
+    lastGif.addClass('bounce').one('webkitAnimationEnd', function() {
+      lastGif.removeClass('bounce');
+    });
   }
 
   var onClickGifPost = function(evt) {
@@ -35,10 +45,27 @@
     // CommentInjector.addPost( imgurLink );
   }
 
+  var onClickCreate = function(evt) {
+    $('#video-container').show();
+    Uploader.prepare();
+    // Add a small delay for the webcam to get ready
+    setTimeout(function() {
+      Uploader.recordAndUpload(function(imgurLink, localLink) {
+        console.debug('Gif uploaded to: ' + imgurLink);
+        $('#video-source').hide();
+        $('#video-preview').attr('src', localLink).show();
+        $('.r-timer-bar-text').text('Done!');
+      });
+    }, 500);
+    Uploader.cleanup();
+  }
+
   var setupEvents = function() {
     $('body').on('click', '#r-gif-container .gif-inner-container .r-img', onClickPreviewGif);
     $('body').on('click', '#r-gif-container .gif-container-overlay', onClickGifPreviewOverlay);
     $('body').on('click', '#r-gif-container #gif-overlay-use', onClickGifPost);
+
+    $('body').on('click', '#create-gif', onClickCreate);
   }
 
   // End code for EVENTS
