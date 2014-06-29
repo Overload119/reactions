@@ -22,7 +22,8 @@ FBPageListener.prototype._listen = function () {
     var lastPostCount = self.postCount;
     self.postCount = self.commentElements.length;
 
-    if (self.postCount != lastPostCount) {
+    if (self.postCount !== lastPostCount) {
+      console.log(self.postCount);
       self.reactInjector();
     }
   }, 1000);
@@ -60,23 +61,42 @@ FBPageListener.prototype.reactInjector = function() {
   // A commentable item is a form containing like, share and comments
   $('.commentable_item').each(function(index, value) {
     // Fetch the ID of the post
-    var newsFeedItem = $(value).find("> input:nth-child(3)")
-    if (newsFeedItem.length === 0) {
-      var key = 
-      self.handlePopupInjector(key);
+    var inputs = $(value).find("input");
+    var newsFeedItem = null;
+
+    // Find the hidden input that contains a JSON with post ID 
+    $(inputs).each(function() {
+      if ($(this).attr("name") === "feedback_params") {
+        newsFeedItem = this; 
+      } 
+    });
+
+    // If not found, don't do anything with this form
+    if (!newsFeedItem) {
       return;
     }
-    var key = jQuery.parseJSON(newsFeedItem.attr("value")).target_fbid;
+
+    // The key is the post ID. It is unique for every post
+    var key = jQuery.parseJSON($(newsFeedItem).attr("value")).target_fbid;
     // Make sure not to repeat anything
-    if (!(key in self.commentInputs) && $(value).find('textarea').length != 0) {
+    if (!(key in self.commentInputs) && $(value).find('textarea').length !== 0) {
       // Fetch the comment link and the comment input 
+      console.log("Injected react");
+
+      // This is the container for the comment list
       self.commentList[key] = $(value).find('div.UFIContainer ul.UFIList');
+
+      // This is the comment box where user puts there input
       self.commentInputs[key] = $(value).find('textarea');
+
+      // This is the comment button. Click this to display comment list if not displayed already
       self.commentLinks[key] = $(value).find('input.uiLinkButtonInput');
+
       // Append the React link
       var $react = $('<span><a class="UFILikeLink">React</span>')
       var dotPrefix = document.createTextNode(' · ');
-      $(value).find('.clearfix:first > div').append(dotPrefix).append($react);
+      var actions = $(value).find('.clearfix').find("label").parent();
+      $(actions).append(dotPrefix).append($react);
 
       // Attach a callback on clicking the react link
       $react.on("click", {
@@ -91,7 +111,4 @@ FBPageListener.prototype.reactInjector = function() {
   });
 }
 
-FBPageListener.prototype.reactInjector = function() {
-  
-}
 window.FBPageListener = FBPageListener;
