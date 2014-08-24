@@ -41,8 +41,15 @@
     var gif       = gifProvider.findById(gifId);
     var imgurLink = gif.link;
 
+    var textarea = evt.data.textarea;
+    var prepare = evt.data.prepare;
+
     // TODO: Uncomment when ready
     // CommentInjector.addPost( imgurLink );
+    prepare();
+    textarea.text(imgurLink);
+    textarea.removeClass("DOMControl_placeholder");
+    hideReactionsPanel();
   }
 
   var onClickCreate = function(evt) {
@@ -54,18 +61,30 @@
         console.debug('Gif uploaded to: ' + imgurLink);
         $('#video-source').hide();
         $('#video-preview').attr('src', localLink).show();
+        $('#video-preview').css("display", "block");
         $('.r-timer-bar-text').text('Done!');
+        // Bad solution, but okay for now
+        $('.r-timer-bar-text').click(function() {
+          Uploader.cleanup();
+          evt.data.prepare(); 
+          evt.data.textarea.text(imgurLink);
+          evt.data.textarea.removeClass("DOMControl_placeholder");
+          hideReactionsPanel();
+        });
       });
     }, 500);
-    Uploader.cleanup();
   }
 
-  var setupEvents = function() {
+  var setupEvents = function(data) {
+    var data = {
+      prepare: data.prepare,
+      textarea: data.textarea,
+    };
+
     $('body').on('click', '#r-gif-container .gif-inner-container .r-img', onClickPreviewGif);
     $('body').on('click', '#r-gif-container .gif-container-overlay', onClickGifPreviewOverlay);
-    $('body').on('click', '#r-gif-container #gif-overlay-use', onClickGifPost);
-
-    $('body').on('click', '#create-gif', onClickCreate);
+    $('body').on('click', '#r-gif-container #gif-overlay-use', data, onClickGifPost);
+    $('body').on('click', '#create-gif', data, onClickCreate);
   }
 
   // End code for EVENTS
@@ -104,13 +123,11 @@
   }
 
   function showReactionsPanel(data) {
-    var input = data.input;
-    var prepare = data.prepare;
 
     $('body').addClass('stop-scrolling').append(reactionFrameHtml);
     Uploader.prepare();
-    console.log("Preparing");
 
+    /*
     $('#create-gif').click(function() {
       Uploader.init(function(data) {
         if (data) {
@@ -121,6 +138,8 @@
         }
       });
     });
+    */
+
     $('.r-background').fadeIn(250, function() {
       $('.r-panel').fadeIn(250, function() {
 
@@ -149,10 +168,10 @@
   }
 
   $(document).ready(function() {
-    setupEvents();
     var pageListener = new FBPageListener();
 
     pageListener.init(function(event) {
+      setupEvents(event.data);
       showReactionsPanel(event.data);   
     });
   });

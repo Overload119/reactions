@@ -62,6 +62,9 @@
   height: 100%;
   overflow: hidden; }
 
+#r-gif-container {
+  height: 380px; }
+
 .gif-container-overlay {
   position: absolute;
   left: 0px;
